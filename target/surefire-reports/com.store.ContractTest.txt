@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.store.ContractTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 2.31 s <<< FAILURE! - in com.store.ContractTest
+com.store.ContractTest  Time elapsed: 2.307 s  <<< ERROR!
+org.springframework.beans.factory.parsing.BeanDefinitionParsingException: 
+Configuration problem: @Configuration class 'AppConfig' may not be final. Remove the final modifier to continue.
+Offending resource: class path resource [com/store/config/AppConfig.class]
+	at com.store.ContractTest.setUp(ContractTest.kt)
+
