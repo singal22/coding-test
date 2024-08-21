@@ -2,9 +2,7 @@ package com.store
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.Min
-import javax.validation.constraints.Max
+import javax.validation.constraints.*
 
 data class Product(
     val id: Int,
@@ -17,10 +15,14 @@ data class Product(
 data class ProductDetails @JsonCreator constructor(
     @JsonProperty("name") @field:NotBlank(message = "Name must be provided") val name: String,
     @JsonProperty("type") @field:NotBlank(message = "Type must be provided") val type: String,
-    @JsonProperty("inventory") @field:Min(1, message = "Inventory must be at least 1") @field:Max(9999, message = "Inventory must be at most 9999") val inventory: Int,
+    @JsonProperty("inventory") @field:Min(1) @field:Max(9999) val inventory: Int,
     @JsonProperty("cost") val cost: Int? = null
 ) {
     init {
+        validateType(type)
+    }
+
+    private fun validateType(type: String) {
         val allowedTypes = listOf("book", "food", "gadget", "other")
         require(type in allowedTypes) { "Type must be one of $allowedTypes" }
     }

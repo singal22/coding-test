@@ -8,11 +8,7 @@ class ProductService {
     private val products = mutableListOf<Product>()
 
     fun getProductsByType(type: String?): List<Product> {
-        val allowedTypes = listOf("book", "food", "gadget", "other")
-        if (type != null && type !in allowedTypes) {
-            throw IllegalArgumentException("Type must be one of $allowedTypes")
-        }
-        return products.filter { it.type == type }
+        return products.filter { type == null || it.type == type }
     }
 
     fun createProduct(productDetails: ProductDetails): ProductId {
