@@ -1,5 +1,6 @@
 package com.store.controllers
 
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.store.ErrorResponseBody
@@ -17,7 +18,9 @@ import javax.validation.ValidationException
 @RequestMapping("/products")
 class Products(private val productService: ProductService) {
 
-    private val objectMapper = ObjectMapper()
+    private val objectMapper = ObjectMapper().apply {
+        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
+    }
 
     @GetMapping
     fun getProductsByType(@RequestParam(required = false) type: String?): ResponseEntity<Any> {
@@ -51,6 +54,7 @@ class Products(private val productService: ProductService) {
             val nameNode = jsonNode.get("name")
             val type = jsonNode.get("type")?.asText() ?: throw IllegalArgumentException("Type must be provided")
             val inventoryNode = jsonNode.get("inventory")
+            val costNode = jsonNode.get("cost")
 
 
             // Check if name is null or not a string
@@ -68,8 +72,15 @@ class Products(private val productService: ProductService) {
                 throw IllegalArgumentException("Inventory must be between 1 and 9999")
             }
 
+            // Validate cost
+            val cost = when {
+                costNode == null || costNode.isNull -> null
+                costNode.isInt && costNode.asInt() > 0 -> costNode.asInt()
+                else -> throw IllegalArgumentException("Cost must be an integer if provided and greater than 0")
+            }
+
             // Create ProductDetails
-            val productDetails = ProductDetails(name = name, type = type, inventory = inventory)
+            val productDetails = ProductDetails(name = name, type = type, inventory = inventory, cost = cost)
             val productId = productService.createProduct(productDetails)
 
             ResponseEntity.status(201).body(productId)
