@@ -42,7 +42,7 @@ class ProductsTest {
     @Test
     fun `getProductsByType should return Bad Request with error when type is invalid`() {
         // Arrange
-        val invalidType = "invalid"
+        val invalidType = "himanshusingal"
         val expectedError = "Invalid product type: $invalidType"
 
         // Act

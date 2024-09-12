@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: com.store.ContractTest
+Test set: com.store.controllers.ProductsTest
 -------------------------------------------------------------------------------
-Tests run: 274, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.646 s - in com.store.ContractTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.963 s - in com.store.controllers.ProductsTest
